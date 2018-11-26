@@ -1,38 +1,58 @@
 'use strict';
+var CLOUD_WIDTH = 420;
+var CLOUD_HEIGHT = 270;
+var CLOUD_X = 100;
+var CLOUD_Y = 10;
+var GAP = 10;
+var BAR_HEIGHT = 40;
+var GAP_BAR = 50;
+var FONT = '16px PT Mono';
+var FONT_BASELINE = 'hanging';
+var FONT_GAP = 15;
+var barWidth = CLOUD_WIDTH - 2 * GAP - 50;
+
+var renderCloud = function (ctx, x, y, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
+};
+
+var getMaxElement = function (arr) {
+  var maxElement = arr[0];
+  
+  for (var i = 1; i <= arr.length; i++) {
+   if (arr[i] > maxElement) {
+     maxElement = arr[i]
+     var swap = arr[0];
+     arr[i] = swap;
+   }
+ }
+  
+ return maxElement;
+};
 
 window.renderStatistics = function (ctx, names, times) {
-  var canvas = document.getElementById('canvas');
-  ctx = canvas.getContext('2d');
+  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, 'pink');
 
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-  ctx.shadowOffsetX = 10;
-  ctx.shadowOffsetY = 10;
-
-  ctx.fillStyle = 'pink';
-  ctx.fillRect(0, 0, 420, 270);
-
-  ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-  ctx.shadowOffsetX = 0;
-  ctx.shadowOffsetY = 0;
-
+ 
   ctx.beginPath();
   ctx.fillStyle = 'white';
   ctx.strokeStyle = 'black';
-  ctx.moveTo(0, 0);
-  ctx.bezierCurveTo(0, 0, 20, 10, 0, 20);
-  ctx.bezierCurveTo(0, 20, 20, 30, 0, 40);
-  ctx.bezierCurveTo(0, 40, 20, 50, 0, 60);
-  ctx.bezierCurveTo(0, 60, 20, 70, 0, 80);
-  ctx.bezierCurveTo(0, 80, 20, 90, 0, 100);
-  ctx.bezierCurveTo(0, 100, 20, 110, 0, 120);
-  ctx.bezierCurveTo(0, 120, 20, 130, 0, 140);
-  ctx.bezierCurveTo(0, 140, 20, 150, 0, 160);
-  ctx.bezierCurveTo(0, 160, 20, 170, 0, 180);
-  ctx.bezierCurveTo(0, 180, 20, 190, 0, 200);
-  ctx.bezierCurveTo(0, 200, 20, 210, 0, 220);
-  ctx.bezierCurveTo(0, 220, 20, 230, 0, 240);
-  ctx.bezierCurveTo(0, 240, 20, 250, 0, 260);
-  ctx.bezierCurveTo(0, 260, 20, 270, 0, 270);
+  ctx.moveTo(100, 0);
+  ctx.bezierCurveTo(100, 0, 120, 10, 100, 20);
+  ctx.bezierCurveTo(100, 20, 120, 30, 100, 40);
+  ctx.bezierCurveTo(100, 40, 120, 50, 100, 60);
+  ctx.bezierCurveTo(100, 60, 120, 70, 100, 80);
+  ctx.bezierCurveTo(100, 80, 120, 90, 100, 100);
+  ctx.bezierCurveTo(100, 100, 120, 110, 100, 120);
+  ctx.bezierCurveTo(100, 120, 120, 130, 100, 140);
+  ctx.bezierCurveTo(100, 140, 120, 150, 100, 160);
+  ctx.bezierCurveTo(100, 160, 120, 170, 100, 180);
+  ctx.bezierCurveTo(100, 180, 120, 190, 100, 200);
+  ctx.bezierCurveTo(100, 200, 120, 210, 100, 220);
+  ctx.bezierCurveTo(100, 220, 120, 230, 100, 240);
+  ctx.bezierCurveTo(100, 240, 120, 250, 100, 260);
+  ctx.bezierCurveTo(100, 260, 120, 270, 100, 270);
   ctx.closePath();
   ctx.stroke();
   ctx.fill();
@@ -118,17 +138,17 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fill();
 
   ctx.fillStyle = 'white';
-  ctx.font = '16px PT Mono';
-  ctx.textBaseline = 'hanging';
-  ctx.fillText('Ура вы победили!', 15, 25);
-  ctx.fillText('Список результатов:', 15, 45);
+  ctx.font = FONT;
+  ctx.textBaseline = FONT_BASELINE;
+  ctx.fillText('Ура вы победили!', 115, 25);
+  ctx.fillText('Список результатов:', 115, 45);
 
-  ctx.fillStyle = 'white';
-  ctx.fillRect(30, 100, 360, 150);
+  var maxTime = getMaxElement (times);
 
-
-  names = [];
-  times = [];
-
-  return renderStatistics;
+  for (var i = 0; i <= names.length - 1; i++) {
+    ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+    ctx.fillRect(CLOUD_X + GAP + 50, CLOUD_Y + GAP + (GAP + BAR_HEIGHT) * i, (barWidth * times[i]) / maxTime, BAR_HEIGHT);
+    ctx.fillStyle = 'white';
+    ctx.fillText(names[i], CLOUD_X + GAP, CLOUD_Y + GAP + FONT_GAP + (GAP + BAR_HEIGHT) * i);
+  }
 };
