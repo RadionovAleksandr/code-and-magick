@@ -18,12 +18,10 @@ var getRandomElement = function (array) {
   return array[index];
 };
 
-// var WIZARDS = [];
-// var WIZARDS_COUNT = 4;
+var WIZARDS_COUNT = 4;
 
 var createWizards = function () {
   var wizards = [];
-  var WIZARDS_COUNT = 4;
 
   for (var i = 0; i < WIZARDS_COUNT; i++) {
     var newWizard = {
@@ -33,22 +31,21 @@ var createWizards = function () {
       eyes: getRandomElement(EYES_COLOR)
     };
     wizards.push(newWizard);
-
-    return wizards;
   }
+  return wizards;
 };
 
 var WIZARDS = createWizards();
 
 // Функция отрисовки волшебников в меню выбора
-var copyWizards = function (WIZARDS) {
-  for (var i = 0; i < WIZARDS.length; i++) {
+var copyWizards = function (arrayWizards) {
+  for (var i = 0; i < arrayWizards.length; i++) {
     var setupSimilarItem = template.content.querySelector('.setup-similar-item').cloneNode(true);
     var space = ' ';
 
-    setupSimilarItem.querySelector('.setup-similar-label').textContent = WIZARDS[i].name + space + WIZARDS[i].surname;
-    setupSimilarItem.querySelector('.wizard-coat').style.fill = WIZARDS[i].coat;
-    setupSimilarItem.querySelector('.wizard-eyes').style.fill = WIZARDS[i].eyes;
+    setupSimilarItem.querySelector('.setup-similar-label').textContent = arrayWizards[i].name + space + arrayWizards[i].surname;
+    setupSimilarItem.querySelector('.wizard-coat').style.fill = arrayWizards[i].coat;
+    setupSimilarItem.querySelector('.wizard-eyes').style.fill = arrayWizards[i].eyes;
 
     setupSimilarList.appendChild(setupSimilarItem);
   }
