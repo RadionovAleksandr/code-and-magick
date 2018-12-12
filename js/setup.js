@@ -1,7 +1,7 @@
 'use strict';
 var setup = document.querySelector('.setup');
 var setupSimular = setup.querySelector('.setup-similar');
-setup.classList.remove('hidden');
+// setup.classList.remove('hidden');
 setupSimular.classList.remove('hidden');
 
 var template = document.querySelector('#similar-wizard-template');
@@ -52,3 +52,74 @@ var copyWizards = function (arrayWizards) {
 };
 
 copyWizards(WIZARDS);
+
+// Начинаем 4 задание!
+
+var CODE_BUTTON_ESC = 27;
+var CODE_BUTTON_ENTER = 13;
+
+var buttonOpen = document.querySelector('.setup-open');
+var buttonOpenKeydown = document.querySelector('.setup-open-icon');
+buttonOpenKeydown.tabIndex = 0;
+var buttonClose = setup.querySelector('.setup-close');
+buttonClose.tabIndex = 0;
+var textInput = setup.querySelector('.setup-user-name');
+
+// функция добавление открытия и скрытия окна
+var openWindow = function () {
+  var ESCbuttonClickHandler = function (evt) {
+    if (evt.keyCode === CODE_BUTTON_ESC) {
+      evt.preventDefault();
+      closeSetup();
+    }
+  };
+
+  var openSetup = function () {
+    setup.classList.remove('hidden');
+    textInput.focus();
+    document.addEventListener('keydown', ESCbuttonClickHandler);
+  };
+
+  var closeSetup = function () {
+    setup.classList.add('hidden');
+    document.removeEventListener('keydown', ESCbuttonClickHandler);
+  };
+
+  // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+  // открытие с помощью мыши
+  buttonOpen.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    openSetup();
+  });
+
+  // открытие с помощью клавиатуры ENTER
+  buttonOpenKeydown.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === CODE_BUTTON_ENTER) {
+      evt.preventDefault();
+      openSetup();
+    }
+  });
+
+  // закрытие с помощью мыши
+  buttonClose.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    closeSetup();
+  });
+
+  // закрытие с помощью клавиатуры ENTER
+  buttonClose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === CODE_BUTTON_ENTER) {
+      evt.preventDefault();
+      closeSetup();
+    }
+  });
+};
+
+openWindow();
+
+// функция валидации инпута
+var validateInput = function () {
+  textInput.minLength = 2;
+};
+
+validateInput();
