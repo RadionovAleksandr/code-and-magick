@@ -11,6 +11,7 @@ var PERSON_NAME = ['Иван', 'Хуан Себастьян', 'Мария', 'К�
 var PERSON_SURNAME = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var COAT_COLOR = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLOR = ['black', 'red', 'blue', 'yellow', 'green'];
+var FIREBALL_COLOR = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
 // Функция рандомных чисел для меняющихся предметов
 var getRandomElement = function (array) {
@@ -64,6 +65,8 @@ buttonOpenKeydown.tabIndex = 0;
 var buttonClose = setup.querySelector('.setup-close');
 buttonClose.tabIndex = 0;
 var textInput = setup.querySelector('.setup-user-name');
+var form = setup.querySelector('.setup-wizard-form');
+form.setAttribute('action', 'https://js.dump.academy/code-and-magick');
 
 // функция добавление открытия и скрытия окна
 var openWindow = function () {
@@ -85,7 +88,6 @@ var openWindow = function () {
     document.removeEventListener('keydown', ESCbuttonClickHandler);
   };
 
-  // yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
   // открытие с помощью мыши
   buttonOpen.addEventListener('click', function (evt) {
     evt.preventDefault();
@@ -123,3 +125,55 @@ var validateInput = function () {
 };
 
 validateInput();
+
+// функция изменения параметров по клику мыши
+var wizardCoat = setup.querySelector('.wizard-coat');
+var wizardEyes = setup.querySelector('.wizard-eyes');
+var wizardFireball = setup.querySelector('.setup-fireball-wrap');
+
+// функция изменения цвета плаща, файрболла и глаз упорядоченно по циклу
+// var changeColor = function (array) {
+//   for (var i = 0; i < array.length; i++) {
+//     var test = array[0];
+//     console.log(test);
+//   }
+//   return test;
+// };
+
+var setRandomColor = function () {
+
+  wizardCoat.addEventListener('click', function () {
+    // evt.preventDefault();
+    for (var i = 0; i < COAT_COLOR.length; i++) {
+      if (wizardCoat.style.fill === COAT_COLOR[i]) {
+        var test = COAT_COLOR[i];
+        wizardCoat.style.fill = test;
+        console.log(test);
+      }
+    }
+  });
+
+  wizardEyes.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    wizardEyes.style.fill = getRandomElement(EYES_COLOR);
+  });
+
+  wizardFireball.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    wizardFireball.style.backgroundColor = getRandomElement(FIREBALL_COLOR);
+  });
+};
+
+setRandomColor();
+
+// функция добавления эффекта cursor:pointer к интерактивным элементам
+var setPointer = function () {
+  wizardCoat.style.cursor = 'pointer';
+  wizardEyes.style.cursor = 'pointer';
+  wizardFireball.style.cursor = 'pointer';
+  textInput.style.cursor = 'pointer';
+};
+
+setPointer();
+
+
