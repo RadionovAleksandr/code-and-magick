@@ -65,8 +65,11 @@ buttonOpenKeydown.tabIndex = 0;
 var buttonClose = setup.querySelector('.setup-close');
 buttonClose.tabIndex = 0;
 var textInput = setup.querySelector('.setup-user-name');
+
 var form = setup.querySelector('.setup-wizard-form');
 form.setAttribute('action', 'https://js.dump.academy/code-and-magick');
+form.setAttribute('name', 'wizard');
+form.setAttribute('name', 'wizard');
 
 // функция добавление открытия и скрытия окна
 var openWindow = function () {
@@ -122,6 +125,15 @@ openWindow();
 // функция валидации инпута
 var validateInput = function () {
   textInput.minLength = 2;
+  textInput.required = 'required';
+
+  textInput.addEventListener('invalid', function () {
+    if (textInput.validity.tooShort) {
+      textInput.setCustomValidity('Ваше имя слишком короткое');
+    } else {
+      textInput.setCustomValidity('');
+    }
+  });
 };
 
 validateInput();
