@@ -72,6 +72,7 @@ form.name = 'wizard';
 
 // функция добавление открытия и скрытия окна
 var openWindow = function () {
+  var isTranslate = false;
   var ESCbuttonClickHandler = function (evt) {
     if (evt.keyCode === CODE_BUTTON_ESC) {
       evt.preventDefault();
@@ -81,8 +82,20 @@ var openWindow = function () {
 
   var openSetup = function () {
     setup.classList.remove('hidden');
+    //
+    // isTranslate = true;
+    // var coordsss = {
+    //   x: evt.clientX,
+    //   y: evt.clientY
+    // };
+
+    setup.style.top = 80 + 'px';
+    setup.style.left = 50 + '%';
+    //
     textInput.focus();
     document.addEventListener('keydown', ESCbuttonClickHandler);
+
+
   };
 
   var closeSetup = function () {
@@ -94,6 +107,14 @@ var openWindow = function () {
   buttonOpen.addEventListener('click', function (evt) {
     evt.preventDefault();
     openSetup();
+
+    // var coordsss = {
+    //   x: evt.clientX,
+    //   y: evt.clientY
+    // };
+
+    // setup.style.top = coordsss.y;
+    // setup.style.left = coordsss.x;
   });
 
   // открытие с помощью клавиатуры ENTER
@@ -117,6 +138,12 @@ var openWindow = function () {
       closeSetup();
     }
   });
+
+  // if (isTranslate) {
+  //   var test = function (evt) {
+
+  //   }
+  // }
 };
 
 openWindow();
@@ -200,4 +227,53 @@ var setPointer = function () {
 
 setPointer();
 
+// Начинаем 5 задание!
+// функция перемещение окна с персонажами
+var imageHandler = document.querySelector('.upload');
 
+imageHandler.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var isDragged = false;
+
+  var imageMoveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
+    isDragged = true;
+
+    var continueCoords = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    setup.style.top = (setup.offsetTop - continueCoords.y) + 'px';
+    setup.style.left = (setup.offsetLeft - continueCoords.x) + 'px';
+  };
+
+  var imageUpHandler = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', imageMoveHandler);
+    document.removeEventListener('mouseup', imageUpHandler);
+
+    if (isDragged) {
+      var preventDefaultClickHandler = function (evt) {
+        evt.preventDefault();
+        imageHandler.removeEventListener('click', preventDefaultClickHandler);
+      };
+      imageHandler.addEventListener('click', preventDefaultClickHandler);
+    }
+  };
+
+  document.addEventListener('mousemove', imageMoveHandler);
+  document.addEventListener('mouseup', imageUpHandler);
+});
